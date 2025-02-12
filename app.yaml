@@ -1,0 +1,13 @@
+runtime: nodejs20
+
+instance_class: F1
+automatic_scaling:
+  max_instances: 1
+
+handlers:
+- url: .*
+  secure: always
+  script: auto
+
+env_variables:
+  SESSION_SECRET: "[Your Express Session Secret]"
