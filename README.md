@@ -1,6 +1,6 @@
 # IAP Protected Application Using Workforce Identity Federation
 
-The steps below detail a method to establish an IAP protected App Engine site which allows access to [Workforce Identity](https://cloud.google.com/iam/docs/workforce-identity-federation) managed identities sourced from Okta.
+The steps below detail a method to establish an IAP protected App Engine site which allows access to [Workforce Identity](https://cloud.google.com/iam/docs/workforce-identity-federation) managed identities sourced from Okta. Users are automatically redirected to the Workforce Identity provider when accessing the IAM protected application.
 - https://cloud.google.com/iap/docs/use-workforce-identity-federation
 - https://cloud.google.com/iam/docs/workforce-sign-in-okta
 - https://cloud.google.com/iam/docs/manage-workload-identity-pools-providers
@@ -53,7 +53,7 @@ gcloud iam oauth-clients create $OAUTH_CLIENT_NAME \
     --location=global \
     --client-type="CONFIDENTIAL_CLIENT" \
     --display-name="OAuth for Workforce Identity" \
-    --description="Oauth for Workforce Identity" \
+    --description="OAuth for Workforce Identity" \
     --allowed-scopes="https://www.googleapis.com/auth/cloud-platform" \
     --allowed-redirect-uris="https://temp.com" \
     --allowed-grant-types="authorization_code_grant"
@@ -96,9 +96,8 @@ gcloud iap settings set iap_settings.yaml \
   --resource-type=app-engine
 
 #Grants Access to All Identities in Pool
-WORKFORCE_PROVIDER_NAME=okta-workforce-pool
 gcloud iap web add-iam-policy-binding \
-    --member=principalSet://iam.googleapis.com/locations/global/workforcePools/$WORKFORCE_PROVDER_NAME/* \
+    --member=principalSet://iam.googleapis.com/locations/global/workforcePools/$WORKFORCE_POOL_NAME/* \
     --role='roles/iap.httpsResourceAccessor' \
     --project=$PROJECT_ID \
     --resource-type=app-engine
