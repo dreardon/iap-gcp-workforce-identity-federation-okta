@@ -15,6 +15,8 @@ This is not an officially supported Google product
     - If you don't have one established, [this Github Repo](https://github.com/dreardon/gcp-workforce-identity-federation-okta) shows how I established the Okta one used below
     - [Okta Workforce Identity Pool](https://cloud.google.com/iam/docs/workforce-sign-in-okta) documentation from Google Cloud
 
+![IAP Protected App Engine Using Okta Identities](./images/workflow.gif)
+
 ```bash
 #!/bin/bash
 export PROJECT_ID=[Google Project ID]
