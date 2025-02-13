@@ -1,6 +1,6 @@
 # IAP Protected Application Using Workforce Identity Federation
 
-The steps below detail a method to establish an IAP protected App Engine site which allows access to [Workforce Identity](https://cloud.google.com/iam/docs/workforce-identity-federation) managed identities sourced from Okta. Users are automatically redirected to the Workforce Identity provider when accessing the IAM protected application.
+The steps below detail a method to establish an [IAP](https://cloud.google.com/iap/docs/concepts-overview) protected App Engine site which allows access to [Workforce Identity](https://cloud.google.com/iam/docs/workforce-identity-federation) managed identities sourced from Okta. Users are automatically redirected to the Workforce Identity provider when accessing the IAP protected application.
 - https://cloud.google.com/iap/docs/use-workforce-identity-federation
 - https://cloud.google.com/iam/docs/workforce-sign-in-okta
 - https://cloud.google.com/iam/docs/manage-workload-identity-pools-providers
