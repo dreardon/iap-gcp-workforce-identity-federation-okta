@@ -33,16 +33,17 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
 
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
     --member="serviceAccount:${PROJECT_ID}@appspot.gserviceaccount.com" \
-    --role='roles/storage.admin'
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-    --member="serviceAccount:${PROJECT_ID}@appspot.gserviceaccount.com" \
     --role='roles/artifactregistry.reader'
 
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
     --member="serviceAccount:${PROJECT_ID}@appspot.gserviceaccount.com" \
     --role='roles/artifactregistry.createOnPushWriter'
 
+gcloud storage buckets add-iam-policy-binding gs://staging.${PROJECT_ID}.appspot.com \
+    --member="serviceAccount:${PROJECT_ID}@appspot.gserviceaccount.com" \
+    --role='roles/storage.admin'
+
+#You may need to wait a minute for permissions above to propogate to the newly created staging bucket
 gcloud app deploy ./app.yaml --project=$PROJECT_ID
 
 # OAuth Configuration
