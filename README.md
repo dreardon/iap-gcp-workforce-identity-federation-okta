@@ -23,8 +23,11 @@ export PROJECT_ID=[Google Project ID]
 export REGION=[Google Region]
 export WORKFORCE_POOL_NAME=[Google Workforce Pool Name]
 
+gcloud config set project $PROJECT_ID
+
 #App Engine Sample Application Deployment
 printf 'y' |  gcloud services enable appengine.googleapis.com
+printf 'y' |  gcloud services enable cloudresourcemanager.googleapis.com
 gcloud app create --project=$PROJECT_ID --region=$REGION
 
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
@@ -71,22 +74,28 @@ gcloud iam oauth-clients update $OAUTH_CLIENT_NAME \
 
 gcloud iam oauth-clients credentials create $OAUTH_CLIENT_CREDENTIAL_NAME \
     --oauth-client=$OAUTH_CLIENT_NAME \
+    --project=$PROJECT_ID \
     --display-name='IAP Workforce Credential' \
     --location='global'
 
 OAUTH_CLIENT_SECRET=$(gcloud iam oauth-clients credentials describe $OAUTH_CLIENT_CREDENTIAL_NAME \
     --oauth-client=$OAUTH_CLIENT_NAME \
+    --project=$PROJECT_ID \
     --format 'value(clientSecret)' \
     --location='global')
 
 #IAP Configuration
 printf 'y' |  gcloud services enable iap.googleapis.com --project=$PROJECT_ID
 
+gcloud iap web enable \
+  --project=$PROJECT_ID \
+  --resource-type=app-engine
+
 cat <<EOF > iap_settings.yaml
 access_settings:
   identity_sources: ["WORKFORCE_IDENTITY_FEDERATION"]
   workforce_identity_settings:
-    workforce_pools: ["$WORKFORCE_POOL_NAME"]
+    workforce_pools: ["locations/global/workforcePools/$WORKFORCE_POOL_NAME"]
     oauth2:
       client_id: "$OAUTH_CLIENT_ID"
       client_secret: "$OAUTH_CLIENT_SECRET"
